@@ -1,6 +1,8 @@
 package com.example.drone.model;
 
 
+import com.example.drone.enums.Model;
+import com.example.drone.enums.State;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -15,8 +17,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Drone {
     private String serialNumber;
-    private String model;
+    private Model model;
     private String weightLimit;
     private String batteryCapacity;
-    private String state;
+    private State state;
 }
