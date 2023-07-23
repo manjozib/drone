@@ -32,7 +32,6 @@ public class DroneServiceImpl implements DroneService{
             } catch (NullPointerException nullPointerException) {
                 return "Model must be in the following list [\"Lightweight\", \"Middleweight\", \"Cruiserweight\", \"Heavyweight\"]";
             }
-
             try {
                 Arrays.asList("IDLE", "LOADING", "LOADED", "DELIVERING", "DELIVERED", "RETURNING").contains(
                         String.valueOf(State.decode(drone.getState().toString()))
