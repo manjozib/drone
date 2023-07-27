@@ -9,19 +9,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+
 @Entity
 @Table(name = "drone")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Drone {
-
     @Id
     private String serialNumber;
     @Enumerated(EnumType.STRING)
     private Model model;
-    private String weightLimit;
-    private String batteryCapacity;
+    private double weightLimit;
+    private double batteryCapacity;
     @Enumerated(EnumType.STRING)
     private State state;
 }
