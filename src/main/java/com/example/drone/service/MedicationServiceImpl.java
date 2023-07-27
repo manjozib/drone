@@ -5,6 +5,8 @@ import com.example.drone.repository.MedicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class MedicationServiceImpl implements MedicationService{
@@ -18,5 +20,10 @@ public class MedicationServiceImpl implements MedicationService{
 
         medicationRepository.save(medication);
         return "medication saved successfully";
+    }
+
+    @Override
+    public List<Medication> getAllMedications() {
+        return medicationRepository.findAll();
     }
 }

@@ -2,8 +2,12 @@ package com.example.drone.controller;
 
 
 import com.example.drone.dao.Dao;
+import com.example.drone.dao.LoadedDrone;
+import com.example.drone.dto.LoadDroneDto;
 import com.example.drone.model.Drone;
+import com.example.drone.model.Medication;
 import com.example.drone.service.DroneServiceImpl;
+import com.example.drone.service.MedicationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +27,12 @@ public class DroneController {
 
     @Autowired
     DroneServiceImpl droneService;
+
+
+    @Autowired
+    MedicationServiceImpl medicationService;
+
+    List<LoadDroneDto> loadedDrones = new ArrayList<>();
 
 
     static class GenericForNotFoundResource {
@@ -73,4 +85,13 @@ public class DroneController {
         }
         return new ResponseEntity<>(new GenericForNotFoundResource("Not found"), HttpStatus.NOT_FOUND);
     }
+
+    @RequestMapping(value = "/load-medication", method = RequestMethod.POST)
+    public ResponseEntity<Object> loadMedication(@RequestBody LoadDroneDto loadDroneDto) {
+    //List<Medication> medicationList = medicationService
+
+
+        return null;
+    }
+
 }
