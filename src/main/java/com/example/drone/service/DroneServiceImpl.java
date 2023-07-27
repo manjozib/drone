@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -64,6 +65,9 @@ public class DroneServiceImpl implements DroneService{
 
     @Override
     public List<Drone> checkingAvailableDronesForLoading() {
-        return droneRepository.findAllDronesByState(State.IDLE);
+        return droneRepository.findAllDronesByState(State.IDLE)
+                .stream()
+                .filter(drone -> drone.getBatteryCapacity() > 25)
+                .collect(Collectors.toList());
     }
 }
