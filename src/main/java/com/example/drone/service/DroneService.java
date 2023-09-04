@@ -13,6 +13,10 @@ public interface DroneService {
     Object registeringDrone(Drone drone);
     Optional<Drone> checkingDroneBatteryLevelBySerialNumber(String serialNumber);
     List<Drone> checkingAvailableDronesForLoading();
+
+    List<Drone> getAll();
+
+    void validatation(Drone drone);
     String loadDroneWithMedication(LoadDroneDto loadDroneDto);
     String checkLoadedMedicationToADrone(String serialNumber);
 }

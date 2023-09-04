@@ -8,15 +8,17 @@ import com.example.drone.model.Drone;
 import com.example.drone.model.Medication;
 import com.example.drone.service.DroneServiceImpl;
 import com.example.drone.service.MedicationServiceImpl;
+import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +27,17 @@ import java.util.Optional;
 @RequestMapping("/drone")
 public class DroneController {
 
-    @Autowired
-    DroneServiceImpl droneService;
 
-    @Autowired
-    MedicationServiceImpl medicationService;
+    private final DroneServiceImpl droneService;
+
+
+    private MedicationServiceImpl medicationService;
+
+
+    public DroneController(DroneServiceImpl droneService, MedicationServiceImpl medicationService) {
+        this.droneService = droneService;
+        this.medicationService = medicationService;
+    }
 
     List<LoadDroneDto> loadedDrones = new ArrayList<>();
 
@@ -43,9 +51,15 @@ public class DroneController {
     }
 
     @RequestMapping(value ="/register", method = RequestMethod.POST)
-    public Object registerDrone(@Valid @RequestBody Drone drone) {
-        return droneService.registeringDrone(drone);
+    public ResponseEntity<Object> registerDrone(@RequestBody Drone drone) {
+        try {
+            return new ResponseEntity<>(droneService.registeringDrone(drone), HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(new ValidationException(e.getMessage()), HttpStatus.valueOf(208));
+        }
     }
+
+
 
     @RequestMapping(value = "/check-battery-percentage", method = RequestMethod.POST)
     public ResponseEntity<?> checkPercentage(@RequestBody Dao checkBatteryPercentageDao) {
@@ -88,6 +102,11 @@ public class DroneController {
     public ResponseEntity<Object> loadMedication(@RequestBody LoadDroneDto loadDroneDto) {
         loadedDrones.add(loadDroneDto);
         return new ResponseEntity<>(new GenericForNotFoundResource("Loaded"), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAll() {
+        return new ResponseEntity<>( droneService.getAll(), HttpStatus.OK);
     }
 
 }

@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "medication")
@@ -16,12 +14,12 @@ import javax.validation.constraints.Pattern;
 @Data
 public class Medication {
 
-    @Pattern(regexp="^[a-zA-Z0-9-_]+$",message="allowed only letters, numbers, ‘-‘, ‘_’")
+   // @Pattern(regexp="^[a-zA-Z0-9-_]+$",message="allowed only letters, numbers, ‘-‘, ‘_’")
     private String name;
-    @NotNull
+    //@NotNull
     private double weight;
     @Id
-    @Pattern(regexp="^[A-Z0-9_]+$",message="allowed only upper case letters, underscore and numbers")
+    //@Pattern(regexp="^[A-Z0-9_]+$",message="allowed only upper case letters, underscore and numbers")
     private String code;
     @Lob
     @Column(name = "image", length = 1024000)
