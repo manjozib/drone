@@ -100,8 +100,8 @@ public class DroneController {
 
     @RequestMapping(value = "/load-medication", method = RequestMethod.POST)
     public ResponseEntity<Object> loadMedication(@RequestBody LoadDroneDto loadDroneDto) {
-        loadedDrones.add(loadDroneDto);
-        return new ResponseEntity<>(new GenericForNotFoundResource("Loaded"), HttpStatus.OK);
+        //droneService.loadDroneWithMedication(loadDroneDto);
+        return new ResponseEntity<>(droneService.loadDroneWithMedication(loadDroneDto), HttpStatus.OK);
     }
     @RequestMapping(value = "/available-for-loading", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllAvailableForLoading() {

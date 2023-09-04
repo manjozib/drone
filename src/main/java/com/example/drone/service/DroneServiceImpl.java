@@ -6,6 +6,7 @@ import com.example.drone.dto.MedicationDto;
 import com.example.drone.enums.Model;
 import com.example.drone.enums.State;
 import com.example.drone.model.Drone;
+import com.example.drone.model.Load;
 import com.example.drone.model.Medication;
 import com.example.drone.repository.DroneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,11 @@ public class DroneServiceImpl implements DroneService{
 
     private final DroneRepository droneRepository;
 
-    private final MedicationServiceImpl medicationService;
+    private final LoadServiceImpl loadService;
 
-    public DroneServiceImpl(DroneRepository droneRepository, MedicationServiceImpl medicationService) {
+    public DroneServiceImpl(DroneRepository droneRepository, LoadServiceImpl loadService) {
         this.droneRepository = droneRepository;
-        this.medicationService = medicationService;
+        this.loadService = loadService;
     }
 
     List<LoadedDrone> loadedDrones;
@@ -80,7 +81,8 @@ public class DroneServiceImpl implements DroneService{
 
     @Override
     public List<Drone> checkingAvailableDronesForLoading() {
-        return droneRepository.findAllDronesByState(State.IDLE)
+//        return droneRepository.findAllDronesByState(State.IDLE)
+        return droneRepository.findAllDronesWhichAreIdleAndLoading()
                 .stream()
                 .filter(drone -> drone.getBatteryCapacity() > 25)
                 .collect(Collectors.toList());
@@ -100,46 +102,38 @@ public class DroneServiceImpl implements DroneService{
     }
 
     @Override
-    public String loadDroneWithMedication(LoadDroneDto loadDroneDto) {
+    public Object loadDroneWithMedication(LoadDroneDto loadDroneDto) {
 
-        String model;
-        double weightLimit;
-        double batteryCapacity;
-        //String state;
-        List<Medication> medicationList;
-
-        List<Drone> droneAvailableForLoading= checkingAvailableDronesForLoading();
-        List<String> dronesSerials = new ArrayList<>();
-        for (Drone drone: droneAvailableForLoading) {
-           dronesSerials.add(drone.getSerialNumber());
+        List<Drone> availableDronesForLoading = checkingAvailableDronesForLoading();
+        List<String> serialNumberOfDronesAvailableForLoading = new ArrayList<>();
+        for (Drone drone: availableDronesForLoading) {
+           serialNumberOfDronesAvailableForLoading.add(drone.getSerialNumber());
         }
 
-        int weightOfMedications = 0;
-        for (MedicationDto load: loadDroneDto.getMedication()) {
-            weightOfMedications += medicationService.getWeightOfMedicationByCode(load.getCode());
+        if(!serialNumberOfDronesAvailableForLoading.contains(loadDroneDto.getSerialNumber())) {
+            return new Object("drone with serial number " +
+                    loadDroneDto.getSerialNumber() +
+                    " is not available for loading");
         }
 
-        //if (weightOfMedications > droneRepository) {}
+        for (MedicationDto medication: loadDroneDto.getMedication()) {
 
-
-        if (dronesSerials.contains(loadDroneDto.getSerialNumber())) {
-            Optional<Drone> drone = droneRepository.findById(loadDroneDto.getSerialNumber());
-            if (drone.isPresent()) {
-                model = drone.get().getModel().toString();
-                weightLimit = drone.get().getWeightLimit();
-                batteryCapacity = drone.get().getBatteryCapacity();
-
-
-            }
+            Load load = new Load();
+            load.setDroneSerialNumber(loadDroneDto.getSerialNumber());
+            load.setMedicalCode(medication.getCode());
+            load.setQuantityOfMedication(medication.getItems());
 
 
 
+            loadService.save(load);
 
         }
 
-
-        return null;
+        return new Object("Drone of serial number: " +
+                loadDroneDto.getSerialNumber() +
+                "has been successfully loaded.");
     }
+
     @Override
     public String checkLoadedMedicationToADrone(String serialNumber) {
         return null;

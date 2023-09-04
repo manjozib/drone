@@ -17,6 +17,6 @@ public interface DroneService {
     List<Drone> getAll();
 
     void validatation(Drone drone);
-    String loadDroneWithMedication(LoadDroneDto loadDroneDto);
+    Object loadDroneWithMedication(LoadDroneDto loadDroneDto);
     String checkLoadedMedicationToADrone(String serialNumber);
 }
