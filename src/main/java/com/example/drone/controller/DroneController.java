@@ -67,10 +67,10 @@ public class DroneController {
                 droneService.checkingDroneBatteryLevelBySerialNumber(checkBatteryPercentageDao.getSerialNumber());
 
         class Battery{
-            public final double battery;
+            public final String battery;
             public final String serialNumber;
 
-            public Battery(double battery, String serialNumber) {
+            public Battery(String battery, String serialNumber) {
                 this.battery = battery;
                 this.serialNumber = serialNumber;
             }
@@ -78,7 +78,7 @@ public class DroneController {
 
 
         if(droneOptional.isPresent()) {
-            return new ResponseEntity<>(new Battery(droneOptional.get().getBatteryCapacity(),
+            return new ResponseEntity<>(new Battery(droneOptional.get().getBatteryCapacity() + " %",
                     checkBatteryPercentageDao.getSerialNumber()), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new GenericForNotFoundResource("Drone with serial Number " +
