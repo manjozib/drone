@@ -103,6 +103,10 @@ public class DroneController {
         loadedDrones.add(loadDroneDto);
         return new ResponseEntity<>(new GenericForNotFoundResource("Loaded"), HttpStatus.OK);
     }
+    @RequestMapping(value = "/available-for-loading", method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllAvailableForLoading() {
+        return new ResponseEntity<>( droneService.checkingAvailableDronesForLoading(), HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<Object> getAll() {
