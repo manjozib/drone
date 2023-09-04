@@ -7,11 +7,10 @@ import com.example.drone.enums.Model;
 import com.example.drone.enums.State;
 import com.example.drone.model.Drone;
 import com.example.drone.model.Load;
-import com.example.drone.model.Medication;
 import com.example.drone.repository.DroneRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.drone.repository.LoadRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,10 +25,14 @@ public class DroneServiceImpl implements DroneService{
 
     private final DroneRepository droneRepository;
 
+    private final LoadRepository loadRepository;
+    private final MedicationServiceImpl medicationService;
     private final LoadServiceImpl loadService;
 
-    public DroneServiceImpl(DroneRepository droneRepository, LoadServiceImpl loadService) {
+    public DroneServiceImpl(DroneRepository droneRepository, LoadRepository loadRepository, MedicationServiceImpl medicationService, LoadServiceImpl loadService) {
         this.droneRepository = droneRepository;
+        this.loadRepository = loadRepository;
+        this.medicationService = medicationService;
         this.loadService = loadService;
     }
 
@@ -101,6 +104,7 @@ public class DroneServiceImpl implements DroneService{
         }
     }
 
+    @Transactional
     @Override
     public Object loadDroneWithMedication(LoadDroneDto loadDroneDto) {
 
@@ -118,16 +122,27 @@ public class DroneServiceImpl implements DroneService{
 
         for (MedicationDto medication: loadDroneDto.getMedication()) {
 
-            Load load = new Load();
-            load.setDroneSerialNumber(loadDroneDto.getSerialNumber());
-            load.setMedicalCode(medication.getCode());
-            load.setQuantityOfMedication(medication.getItems());
+            double weight =
+                    medicationService
+                            .getWeightOfMedicationByCode(medication.getCode());
 
+            if (weight == 0.0) {
+                return new Object("Medication with code: " +
+                        medication.getCode() +
+                        "is not available");
+            } else {
+                Load load = new Load();
+                load.setDroneSerialNumber(loadDroneDto.getSerialNumber());
+                load.setMedicalCode(medication.getCode());
+                load.setQuantityOfMedication(medication.getItems());
+                load.setTotalWeight(medication.getItems() * weight);
 
-
-            loadService.save(load);
+                loadService.save(load);
+            }
 
         }
+
+        System.out.println(loadRepository.getTotalWeightOfLoadedItemsForDroneBySerialNumber(loadDroneDto.getSerialNumber()));
 
         return new Object("Drone of serial number: " +
                 loadDroneDto.getSerialNumber() +
