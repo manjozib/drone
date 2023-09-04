@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -25,5 +26,12 @@ public class MedicationServiceImpl implements MedicationService{
     @Override
     public List<Medication> getAllMedications() {
         return medicationRepository.findAll();
+    }
+
+    @Override
+    public double getWeightOfMedicationByCode(String code) {
+        Optional<Medication> medication = medicationRepository.findById(code);
+
+        return medication.map(Medication::getWeight).orElse(0.0);
     }
 }

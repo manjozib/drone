@@ -8,10 +8,10 @@ import java.util.List;
 
 public class LoadedDrone {
 
-    private Model model;
+    private String model;
     private double weightLimit;
     private double batteryCapacity;
-    private State state;
+    //private String state;
     private List<Medication> medicationList;
 
 }

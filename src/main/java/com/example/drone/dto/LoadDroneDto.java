@@ -13,6 +13,6 @@ import java.util.List;
 public class LoadDroneDto {
 
     private String serialNumber;
-    private List<String> medicationCode;
+    private List<MedicationDto> medication;
 
 }

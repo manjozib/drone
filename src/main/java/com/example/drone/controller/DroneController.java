@@ -28,7 +28,6 @@ public class DroneController {
     @Autowired
     DroneServiceImpl droneService;
 
-
     @Autowired
     MedicationServiceImpl medicationService;
 
@@ -64,7 +63,6 @@ public class DroneController {
         }
 
 
-
         if(droneOptional.isPresent()) {
             return new ResponseEntity<>(new Battery(droneOptional.get().getBatteryCapacity(),
                     checkBatteryPercentageDao.getSerialNumber()), HttpStatus.OK);
@@ -88,10 +86,8 @@ public class DroneController {
 
     @RequestMapping(value = "/load-medication", method = RequestMethod.POST)
     public ResponseEntity<Object> loadMedication(@RequestBody LoadDroneDto loadDroneDto) {
-    //List<Medication> medicationList = medicationService
-
-
-        return null;
+        loadedDrones.add(loadDroneDto);
+        return new ResponseEntity<>(new GenericForNotFoundResource("Loaded"), HttpStatus.OK);
     }
 
 }

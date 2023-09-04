@@ -13,7 +13,7 @@ public enum State {
     DELIVERED("DELIVERED"),
     RETURNING("RETURNING");
 
-    private String state;
+    private final String state;
 
     private State(String state) {
         this.state=state;

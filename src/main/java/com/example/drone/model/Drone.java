@@ -8,6 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -17,6 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Drone {
     @Id
+    @Size(max = 2)
     private String serialNumber;
     @Enumerated(EnumType.STRING)
     private Model model;

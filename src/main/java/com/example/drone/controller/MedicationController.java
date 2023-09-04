@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,10 @@ public class MedicationController {
     MedicationServiceImpl medicationServiceImpl;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createMedication(@RequestParam("image")MultipartFile image,
-                                   @RequestParam("code") String  code,
-                                   @RequestParam("name") String name,
-                                   @RequestParam("weight") double weight) throws IOException {
+    public String createMedication(@Valid @RequestParam("image")MultipartFile image,
+                                   @Valid @RequestParam("code") String  code,
+                                   @Valid @RequestParam("name") String name,
+                                   @Valid @RequestParam("weight") double weight) throws IOException {
         Medication medication = new Medication();
         medication.setName(name);
         medication.setCode(code);
@@ -53,6 +54,13 @@ public class MedicationController {
 
         return medicationDaoList.size() > 0 ? new ResponseEntity<>(medicationDaoList, HttpStatus.OK)
                 : new ResponseEntity<>("No Medication", HttpStatus.NOT_FOUND);
+    }
+
+
+    @RequestMapping(value = "/weight", method = RequestMethod.GET)
+    public void getWeight() {
+
+        System.out.println(medicationServiceImpl.getWeightOfMedicationByCode("M01AE01"));
     }
 
 
