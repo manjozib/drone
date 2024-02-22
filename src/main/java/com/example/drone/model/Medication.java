@@ -2,6 +2,8 @@ package com.example.drone.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,14 +16,16 @@ import lombok.NoArgsConstructor;
 @Data
 public class Medication {
 
-   // @Pattern(regexp="^[a-zA-Z0-9-_]+$",message="allowed only letters, numbers, ‘-‘, ‘_’")
-    private String name;
-    //@NotNull
-    private double weight;
     @Id
-    //@Pattern(regexp="^[A-Z0-9_]+$",message="allowed only upper case letters, underscore and numbers")
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+    @Pattern(regexp="^[a-zA-Z0-9-_]+$",message="Allowed only letters, numbers, ‘-‘, ‘_’")
+    private String name;
+    @Column(nullable = false)
+    private double weight;
+    @Pattern(regexp="^[A-Z0-9_]+$",message="allowed only upper case letters, underscore and numbers")
     private String code;
-    @Lob
-    @Column(name = "image", length = 1024000)
-    private byte[] image;
+//    @Lob
+//    @Column(name = "image", length = 1024000)
+//    private byte[] image;
 }

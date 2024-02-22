@@ -11,17 +11,17 @@ import java.util.List;
 
 public interface DroneRepository extends JpaRepository<Drone, String> {
 
-    List<Drone> findAllDronesByState(State state);
-    @Query(value = "SELECT * FROM Drone WHERE state IN ('LOADING', 'IDLE')",
-            nativeQuery = true)
-    List<Drone> findAllDronesWhichAreIdleAndLoading();
-
-    @Transactional
-    @Modifying
-    @Query(
-            value = "UPDATE Drone SET state = :state " +
-                    "WHERE drone_Serial_Number = :droneSerialNumber",
-            nativeQuery = true
-    )
-    void updateDroneState(String droneSerialNumber, String state);
+//    List<Drone> findAllDronesByState(State state);
+//    @Query(value = "SELECT * FROM Drone WHERE state IN ('LOADING', 'IDLE')",
+//            nativeQuery = true)
+//    List<Drone> findAllDronesWhichAreIdleAndLoading();
+//
+//    @Transactional
+//    @Modifying
+//    @Query(
+//            value = "UPDATE Drone SET state = :state " +
+//                    "WHERE drone_Serial_Number = :droneSerialNumber",
+//            nativeQuery = true
+//    )
+//    void updateDroneState(String droneSerialNumber, String state);
 }
