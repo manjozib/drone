@@ -1,6 +1,7 @@
 package com.example.drone.controller;
 
 
+import com.example.drone.dto.MedicationDto;
 import com.example.drone.model.Medication;
 import com.example.drone.service.impl.MedicationServiceImpl;
 import jakarta.validation.Valid;
@@ -23,12 +24,12 @@ public class MedicationController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<Object> addMedication(@Valid @RequestBody Medication medication, BindingResult bindingResult) {
+    public ResponseEntity<Object> addMedication(@Valid @RequestBody MedicationDto medicationDto, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return new ResponseEntity<>("Failed to add because: " + bindingResult.getFieldError().getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
         try {
-            medicationService.add(medication);
+            medicationService.add(medicationDto);
 
             return new ResponseEntity<>("Medication added successfully", HttpStatus.CREATED);
         } catch (Exception e) {

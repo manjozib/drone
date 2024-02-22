@@ -23,20 +23,18 @@ import lombok.NoArgsConstructor;
 public class Drone extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     private String id;
-//    @Size(max = 10, message = "Serial number cannot exceed 100 characters")
-//    @Column(nullable = false, length = 100, unique = true)
-//    @NotBlank(message = "Serial number cannot be blank")
+    @Column(name = "serial_number")
     private String serialNumber;
     @Enumerated(EnumType.STRING)
-//    @NotNull(message = "Invalid model")
     private Model model;
-//    @Max(value = 500, message = "Weight limit cannot exceed 500 grams")
-//    @Min(value = 1, message = "Weight limit should greater or equal to 1")
+    @Column(name = "weight_limit")
     private double weightLimit;
-//    @Max(value = 100, message = "Battery capacity cannot exceed 100 percentage")
+    @Column(name = "battery_capacity")
     private double batteryCapacity;
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Invalid state")
+    @Column(name = "state")
     private State state;
 }

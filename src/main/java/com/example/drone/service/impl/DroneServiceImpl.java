@@ -36,13 +36,19 @@ public class DroneServiceImpl implements DroneService {
 
     @Override
     public void changeDroneState(ChangeStateDto changeStateDto) {
-        Optional<Drone> searchExistenceBySerial = droneRepository
-                .findBySerialNumber(changeStateDto.getSerialNumber());
-        if(searchExistenceBySerial.isPresent()) {
+        Drone find = searchDroneExistence(changeStateDto.getSerialNumber());
+        if(find != null) {
             //State state = State.valueOf(String.valueOf(changeStateDto.getState()));
             droneRepository.updateDroneState(changeStateDto.getSerialNumber(), String.valueOf(changeStateDto.getState()));
         } else {
             throw new RuntimeException("Drone of serial#: " + changeStateDto.getSerialNumber() + " does not exist");
         }
+    }
+
+    @Override
+    public Drone searchDroneExistence(String serial) {
+        Optional<Drone> searchExistenceBySerial = droneRepository
+                .findBySerialNumber(serial);
+        return searchExistenceBySerial.orElse(null);
     }
 }

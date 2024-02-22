@@ -22,7 +22,7 @@ public interface DroneRepository extends JpaRepository<Drone, String> {
     @Modifying
     @Query(
             value = "UPDATE Drone SET state = :state " +
-                    "WHERE serialNumber = :serialNumber",
+                    "WHERE serial_number = :serialNumber",
             nativeQuery = true
     )
     void updateDroneState(String serialNumber, String state);

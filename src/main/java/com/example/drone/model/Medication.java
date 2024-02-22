@@ -20,12 +20,12 @@ public class Medication extends AbstractEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(nullable = false, name = "id")
     private String id;
-    @Pattern(regexp="^[a-zA-Z0-9-_]+$",message="Allowed only letters, numbers, ‘-‘, ‘_’")
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "weight")
     private double weight;
-    @Pattern(regexp="^[A-Z0-9_]+$",message="allowed only upper case letters, underscore and numbers")
+    @Column(nullable = false, name = "code")
     private String code;
 //    @Lob
 //    @Column(name = "image", length = 1024000)

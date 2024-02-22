@@ -16,9 +16,13 @@ public class LoadLines extends AbstractEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "drone_serial_number")
     private String droneSerialNumber;
+    @Column(name = "medical_code")
     private String medicalCode;
+    @Column(name = "quantity_of_medication")
     private int quantityOfMedication;
 
 }
