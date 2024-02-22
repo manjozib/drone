@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DroneRepository extends JpaRepository<Drone, String> {
 
@@ -15,13 +16,14 @@ public interface DroneRepository extends JpaRepository<Drone, String> {
 //    @Query(value = "SELECT * FROM Drone WHERE state IN ('LOADING', 'IDLE')",
 //            nativeQuery = true)
 //    List<Drone> findAllDronesWhichAreIdleAndLoading();
-//
-//    @Transactional
-//    @Modifying
-//    @Query(
-//            value = "UPDATE Drone SET state = :state " +
-//                    "WHERE drone_Serial_Number = :droneSerialNumber",
-//            nativeQuery = true
-//    )
-//    void updateDroneState(String droneSerialNumber, String state);
+
+    Optional<Drone> findBySerialNumber(String serialNumber);
+    @Transactional
+    @Modifying
+    @Query(
+            value = "UPDATE Drone SET state = :state " +
+                    "WHERE serialNumber = :serialNumber",
+            nativeQuery = true
+    )
+    void updateDroneState(String serialNumber, String state);
 }

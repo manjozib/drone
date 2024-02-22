@@ -11,9 +11,9 @@ public enum Model {
     Cruiserweight("Cruiserweight"),
     Heavyweight("Heavyweight");
 
-    private String model;
+    private final String model;
 
-    private Model(String model) {
+    Model(String model) {
         this.model=model;
     }
 

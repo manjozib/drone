@@ -1,9 +1,8 @@
 package com.example.drone.controller;
 
 
-import com.example.drone.model.Drone;
 import com.example.drone.model.Medication;
-import com.example.drone.service.MedicationServiceImpl;
+import com.example.drone.service.impl.MedicationServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

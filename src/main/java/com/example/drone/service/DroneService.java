@@ -1,8 +1,10 @@
 package com.example.drone.service;
 
-import com.example.drone.model.Drone;
+import com.example.drone.dto.ChangeStateDto;
+import com.example.drone.dto.DroneDto;
 
 public interface DroneService {
 
-    Drone register(Drone drone);
+    void register(DroneDto droneDto);
+    void changeDroneState(ChangeStateDto changeStateDto);
 }

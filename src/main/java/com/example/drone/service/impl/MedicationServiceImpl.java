@@ -1,12 +1,13 @@
-package com.example.drone.service;
+package com.example.drone.service.impl;
 
 import com.example.drone.model.Medication;
 import com.example.drone.repository.MedicationRepository;
+import com.example.drone.service.MedicationService;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class MedicationServiceImpl implements MedicationService{
+public class MedicationServiceImpl implements MedicationService {
 
     private final MedicationRepository medicationRepository;
 

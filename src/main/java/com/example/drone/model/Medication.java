@@ -6,15 +6,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "medication")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Medication {
+public class Medication extends AbstractEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
