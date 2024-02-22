@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface MedicationRepository extends JpaRepository<Medication,String> {
 
+    Optional<Medication> findByCode(String code);
+
 }
